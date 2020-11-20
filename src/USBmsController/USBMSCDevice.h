@@ -1,3 +1,28 @@
+/**
+ * Copyright (c) 2017-2020 Warren Watson
+ * This file is part of the SdFat library for use with MSC.
+ * 
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ */
+
 #ifndef USBmscDevice_h
 #define USBmscDevice_h
 #include "../common/SysCall.h"
@@ -5,31 +30,7 @@
 #ifdef HAS_USB_MSC_CLASS
 #include "USBmscInterface.h"
 #include "msc.h"
-//class msController;
 
-/**
- * \class SdioConfig
- * \brief SDIO card configuration.
- */
-//class MSCConfig {
-// public:
-//  MSCConfig() :  m_pDrive(NULL) {};
-  /**
-   * SdioConfig constructor.
-   * \param[in] opt SDIO options.
-   */
-//  explicit MSCConfig(msController *pDrive) : m_pDrive(pDrive) {}
-  /** \return SDIO card options. */
-//  msController *pDrive() {return m_pDrive;}
-//  uint8_t options() {return m_options;}
-  /** \return true if DMA_SDIO. */
-//  bool useDma() {return m_options & DMA_SDIO;}
-// private:
-//  msController *m_pDrive;
-//};
-
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
 /**
  * \class USBMSCDevice
  * \brief Raw USB Drive accesss.
@@ -43,7 +44,7 @@ class USBMSCDevice : public USBmscInterface {
   bool begin(msController *pDrive);
   uint32_t sectorCount();
   /**
-   * \return code for the last error. See SdCardInfo.h for a list of error codes.
+   * \return code for the last error. See USBmscInfo.h for a list of error codes.
    */
   uint8_t errorCode() const;
   /** \return error data for last error. */
@@ -57,7 +58,7 @@ class USBMSCDevice : public USBmscInterface {
    */
   bool isBusy();
   /**
-   * Read a 512 byte sector from an SD card.
+   * Read a 512 byte sector from an USB MSC drive.
    *
    * \param[in] sector Logical sector to be read.
    * \param[out] dst Pointer to the location that will receive the data.
@@ -65,7 +66,7 @@ class USBMSCDevice : public USBmscInterface {
    */
   bool readSector(uint32_t sector, uint8_t* dst);
   /**
-   * Read multiple 512 byte sectors from an SD card.
+   * Read multiple 512 byte sectors from an USB MSC drive.
    *
    * \param[in] sector Logical sector to be read.
    * \param[in] ns Number of sectors to be read.
@@ -73,12 +74,12 @@ class USBMSCDevice : public USBmscInterface {
    * \return true for success or false for failure.
    */
   bool readSectors(uint32_t sector, uint8_t* dst, size_t ns);
-  /** \return SDIO card status. */
+  /** \return USB MSC drive status. */
   uint32_t status();
   /** \return success if sync successful. Not for user apps. */
   bool syncDevice();
   /**
-   * Writes a 512 byte sector to an SD card.
+   * Writes a 512 byte sector to an USB MSC drive.
    *
    * \param[in] sector Logical sector to be written.
    * \param[in] src Pointer to the location of the data to be written.
@@ -86,7 +87,7 @@ class USBMSCDevice : public USBmscInterface {
    */
   bool writeSector(uint32_t sector, const uint8_t* src);
   /**
-   * Write multiple 512 byte sectors to an SD card.
+   * Write multiple 512 byte sectors to an USB MSC drive.
    *
    * \param[in] sector Logical sector to be written.
    * \param[in] ns Number of sectors to be written.
@@ -94,9 +95,6 @@ class USBMSCDevice : public USBmscInterface {
    * \return true for success or false for failure.
    */
   bool writeSectors(uint32_t sector, const uint8_t* src, size_t ns);
-// private:
-//	MSCConfig m_mscConfig;
-
 };
 #endif // HAS_USB_MSC_CLASS
 #endif  // USBmscDevice_h

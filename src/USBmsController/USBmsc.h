@@ -2,6 +2,8 @@
  * Copyright (c) 2011-2019 Bill Greiman
  * This file is part of the SdFat library for SD memory cards.
  *
+ * Modified 2020 for use with SdFat and MSC. By Warren Watson.
+ * 
  * MIT License
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
