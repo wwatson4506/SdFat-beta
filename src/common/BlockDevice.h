@@ -25,7 +25,12 @@
 #ifndef BlockDevice_h
 #define  BlockDevice_h
 #include "SdCard/SdCard.h"
-#if HAS_SDIO_CLASS || USE_BLOCK_DEVICE_INTERFACE
+
+//-------------- Modified for MSC -----------------------------------
+#if HAS_SDIO_CLASS || USE_BLOCK_DEVICE_INTERFACE || HAS_USB_MSC_CLASS
+#include "USBmsController/USBmsc.h"
+//-------------------------------------------------------------------
+
 typedef BlockDeviceInterface BlockDevice;
 #else
 typedef SdCard BlockDevice;
