@@ -30,6 +30,13 @@
  */
 #include "common/SysCall.h"
 #include "SdCard/SdCard.h"
+
+//---- Added For MSC --------------
+#ifdef HAS_USB_MSC_CLASS
+#include "USBmsController/USBmsc.h"
+#endif  // HAS_USB_MSC_CLASS
+//---------------------------------
+
 #include "ExFatLib/ExFatLib.h"
 #include "FatLib/FatLib.h"
 #include "FsLib/FsLib.h"
@@ -58,6 +65,17 @@ class SdBase : public Vol {
 #ifdef BUILTIN_SDCARD
     if (csPin == BUILTIN_SDCARD) {
       return begin(SdioConfig(FIFO_SDIO));
+
+//-------- Added For MSC --------------
+#ifdef HAS_USB_MSC_CLASS
+  bool begin(msController * pdrv) {
+	if((msController *pDrv) != nullptr) {
+	  return begin(pdrv);
+    }
+  }  
+#endif  // HAS_USB_MSC_CLASS
+//-------------------------------------
+
     }
 #endif  // BUILTIN_SDCARD
     return begin(SdSpiConfig(csPin, SHARED_SPI));
@@ -90,7 +108,20 @@ class SdBase : public Vol {
   bool begin(SdioConfig sdioConfig) {
     return cardBegin(sdioConfig) && Vol::begin(m_card);
   }
-  //----------------------------------------------------------------------------
+
+//-------------- Added For MSC ------------------------------------------------
+  /** Initialize USB drive and file system for USB Drive.
+   *
+   * \param[in] msController drive configuration.
+   * \return true for success or false for failure.
+   */
+#ifdef HAS_USB_MSC_CLASS
+  bool begin(msController *mscDrive) {
+    return cardBegin(mscDrive) && Vol::begin(m_USBmscDrive);
+  }
+#endif
+//----------------------------------------------------------------------------
+
   /** \return Pointer to SD card object. */
   SdCard* card() {return m_card;}
   //----------------------------------------------------------------------------
@@ -113,7 +144,23 @@ class SdBase : public Vol {
     m_card = m_cardFactory.newCard(sdioConfig);
     return m_card && !m_card->errorCode();
   }
-  //----------------------------------------------------------------------------
+
+//-------------- Added For MSC ------------------------------------------------
+  /** Initialize USB MSC drive.
+   *
+   * \param[in] Pointer to an instance of msc.
+   * \return true for success or false for failure.
+   */
+#ifdef HAS_USB_MSC_CLASS
+  bool cardBegin(msController *pDrive) {
+    m_USBmscDrive = m_USBmscFactory.newMSCDevice(pDrive);
+    return m_USBmscDrive && !m_USBmscDrive->errorCode();
+  }
+  /** \return Pointer to USB MSC object. */
+  mscDevice* usbDrive() {return m_USBmscDrive;}
+#endif
+//----------------------------------------------------------------------------
+
   /** %Print error info and halt.
    *
    * \param[in] pr Print destination.
@@ -268,6 +315,14 @@ class SdBase : public Vol {
   //----------------------------------------------------------------------------
   /** \return SD card error code. */
   uint8_t sdErrorCode() {
+  //-------------- Added For MSC ------------------------------------------------
+#if HAS_USB_MSC_CLASS
+    if (m_USBmscDrive) {
+      return m_USBmscDrive->errorCode();
+    }
+    return SD_CARD_ERROR_INVALID_CARD_CONFIG; //TODO: change this!
+#endif  // HAS_USB_MSC_CLASS
+  //----------------------------------------------------------------------------
     if (m_card) {
       return m_card->errorCode();
     }
@@ -276,7 +331,6 @@ class SdBase : public Vol {
   //----------------------------------------------------------------------------
   /** \return SD card error data. */
   uint8_t sdErrorData() {return m_card ? m_card->errorData() : 0;}
-  //----------------------------------------------------------------------------
   /** \return pointer to base volume */
   Vol* vol() {return reinterpret_cast<Vol*>(this);}
   //----------------------------------------------------------------------------
@@ -285,6 +339,11 @@ class SdBase : public Vol {
    * \return true for success or false for failure.
    */
   bool volumeBegin() {
+//-------------- Added For MSC ------------------------------------------------
+#ifdef HAS_USB_MSC_CLASS
+	 return Vol::begin(m_USBmscDrive);
+#endif // HAS_USB_MSC_CLASS
+//----------------------------------------------------------------------------
      return Vol::begin(m_card);
   }
 #if ENABLE_ARDUINO_SERIAL
@@ -342,6 +401,14 @@ class SdBase : public Vol {
  private:
   SdCard* m_card;
   SdCardFactory m_cardFactory;
+
+//-------------- Added For MSC ------------------------------------------------
+#ifdef HAS_USB_MSC_CLASS
+  mscDevice*  m_USBmscDrive;
+  USBmscFactory m_USBmscFactory;
+#endif
+//----------------------------------------------------------------------------
+
 };
 //------------------------------------------------------------------------------
 /**
