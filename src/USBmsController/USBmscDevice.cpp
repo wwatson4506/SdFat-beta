@@ -136,9 +136,7 @@ bool USBMSCDevice::readSector(uint32_t sector, uint8_t* dst) {
 }
 //------------------------------------------------------------------------------
 bool USBMSCDevice::readSectors(uint32_t sector, uint8_t* dst, size_t n) {
-//Serial.printf("readSectors()\n");
 	m_errorCode = thisDrive->msReadBlocks(sector, n, (uint16_t)512, dst);
-//Serial.printf("m_errorCode = %d\n",m_errorCode);	
 	if(m_errorCode) {
 		return false;
 	}
@@ -150,9 +148,7 @@ bool USBMSCDevice::writeSector(uint32_t sector, const uint8_t* src) {
 }
 //------------------------------------------------------------------------------
 bool USBMSCDevice::writeSectors(uint32_t sector, const uint8_t* src, size_t n) {
-//Serial.printf("writeSectors()\n");
 	m_errorCode = thisDrive->msWriteBlocks(sector, n, (uint16_t)512, src);
-//Serial.printf("m_errorCode = %d\n",m_errorCode);	
 	if(m_errorCode) {
 		return false;
 	}
