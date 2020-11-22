@@ -107,6 +107,11 @@ bool USBMSCDevice::syncDevice() {
 }
 
 //------------------------------------------------------------------------------
+uint8_t USBMSCDevice::usbType() const {
+  return  SD_CARD_TYPE_USB;
+}
+
+//------------------------------------------------------------------------------
 uint32_t USBMSCDevice::status() {
   return m_errorCode;
 }

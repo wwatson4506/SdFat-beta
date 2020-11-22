@@ -57,6 +57,10 @@ class USBMSCDevice : public USBmscInterface {
    * \return true if busy else false.
    */
   bool isBusy();
+  /** Return the card type: SD V1, SD V2 or SDHC
+   * \return 0 - SD V1, 1 - SD V2, or 3 - SDHC.
+   */
+  uint8_t usbType() const;
   /**
    * Read a 512 byte sector from an USB MSC drive.
    *

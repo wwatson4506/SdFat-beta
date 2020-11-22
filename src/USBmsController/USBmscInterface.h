@@ -41,6 +41,10 @@ class USBmscInterface : public BlockDeviceInterface {
   virtual uint32_t errorData() const = 0;
   /** \return true if USB is busy. */
   virtual bool isBusy() = 0;
+  /** Return the card type: USB MSC
+   * \return 4 - USB MSC.
+   */
+  virtual uint8_t usbType() const = 0;
   /**
    * Determine the size of a USB Mass Storage Device.
    *

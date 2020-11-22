@@ -87,6 +87,8 @@ enum {
 void printUSBErrorSymbol(print_t* pr, uint8_t code);
 void printUSBErrorText(print_t* pr, uint8_t code);
 
+const uint8_t SD_CARD_TYPE_USB = 4;
+
 //-----------------------------------------------------------------------------
 inline uint32_t USBmscCapacity() {
     return 0;

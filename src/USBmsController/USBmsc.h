@@ -30,7 +30,7 @@
 
 #if HAS_USB_MSC_CLASS
 #include "USBMSCDevice.h"
-typedef msController *MSCDRV;
+//typedef msController *MSCDRV;
 typedef USBmscInterface mscDevice;
 /**
  * \class USBmscFactory
@@ -39,12 +39,12 @@ typedef USBmscInterface mscDevice;
 class USBmscFactory {
  public:
   mscDevice* newMSCDevice(msController *pDrive) {
-    m_USBmscDrive.begin(pDrive);
-    return &m_USBmscDrive;
+    m_USBmscDrv.begin(pDrive);
+    return &m_USBmscDrv;
   }
 
  private:
-  USBMSCDevice m_USBmscDrive;
+  USBMSCDevice m_USBmscDrv;
 };
 #endif  // HAS_USB_MSC_CLASS
 #endif  // SdCard_h
