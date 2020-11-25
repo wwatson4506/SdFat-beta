@@ -57,6 +57,17 @@ class USBMSCDevice : public USBmscInterface {
    * \return true if busy else false.
    */
   bool isBusy();
+  /**
+   * Read a USB drive's information. This contains the drive's identification
+   * information such as Manufacturer ID, Product name, Product serial
+   * number and Manufacturing date pluse more.
+   *
+   * \param[out]  msDriveInfo_t pointer to area for returned data.
+   *
+   * \return true for success or false for failure.
+   */
+
+  bool readUSBDriveInfo(msDriveInfo_t * driveInfo);
   /** Return the card type: SD V1, SD V2 or SDHC
    * \return 0 - SD V1, 1 - SD V2, or 3 - SDHC.
    */

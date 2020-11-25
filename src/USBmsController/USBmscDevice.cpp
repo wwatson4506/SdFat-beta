@@ -102,6 +102,12 @@ bool USBMSCDevice::isBusy() {
 }
 
 //------------------------------------------------------------------------------
+bool USBMSCDevice::readUSBDriveInfo(msDriveInfo_t * driveInfo) {
+	memcpy(driveInfo, &thisDrive->msDriveInfo, sizeof(msDriveInfo_t));
+  return true;
+}
+
+//------------------------------------------------------------------------------
 bool USBMSCDevice::syncDevice() {
   return true;
 }
@@ -141,7 +147,8 @@ bool USBMSCDevice::readSector(uint32_t sector, uint8_t* dst) {
 }
 //------------------------------------------------------------------------------
 bool USBMSCDevice::readSectors(uint32_t sector, uint8_t* dst, size_t n) {
-	m_errorCode = thisDrive->msReadBlocks(sector, n, (uint16_t)512, dst);
+	m_errorCode = thisDrive->msReadBlocks(sector, n,
+	              (uint16_t)thisDrive->msDriveInfo.capacity.BlockSize, dst);
 	if(m_errorCode) {
 		return false;
 	}
@@ -153,7 +160,8 @@ bool USBMSCDevice::writeSector(uint32_t sector, const uint8_t* src) {
 }
 //------------------------------------------------------------------------------
 bool USBMSCDevice::writeSectors(uint32_t sector, const uint8_t* src, size_t n) {
-	m_errorCode = thisDrive->msWriteBlocks(sector, n, (uint16_t)512, src);
+	m_errorCode = thisDrive->msWriteBlocks(sector, n,
+	              (uint16_t)thisDrive->msDriveInfo.capacity.BlockSize, src);
 	if(m_errorCode) {
 		return false;
 	}

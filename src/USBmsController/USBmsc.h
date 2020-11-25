@@ -30,7 +30,6 @@
 
 #if HAS_USB_MSC_CLASS
 #include "USBMSCDevice.h"
-//typedef msController *MSCDRV;
 typedef USBmscInterface mscDevice;
 /**
  * \class USBmscFactory
@@ -42,7 +41,6 @@ class USBmscFactory {
     m_USBmscDrv.begin(pDrive);
     return &m_USBmscDrv;
   }
-
  private:
   USBMSCDevice m_USBmscDrv;
 };
