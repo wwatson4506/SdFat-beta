@@ -67,6 +67,11 @@ class SdBase : public Vol {
       return begin(SdioConfig(FIFO_SDIO));
 
 //-------- Added For MSC --------------
+  /** Initialize USB drive and file system.
+   *
+   * \param[in] Pointer to MSC drive instance.
+   * \return true for success or false for failure.
+   */
 #ifdef HAS_USB_MSC_CLASS
   bool begin(msController * pdrv) {
 	if((msController *pDrv) != nullptr) {
@@ -150,7 +155,7 @@ class SdBase : public Vol {
   mscDevice* usbDrive() {return m_USBmscDrive;}
   /** Initialize USB MSC drive.
    *
-   * \param[in] Pointer to an instance of msc.
+   * \param[in] Pointer to an instance of MSC.
    * \return true for success or false for failure.
    */
 #ifdef HAS_USB_MSC_CLASS
@@ -315,14 +320,17 @@ class SdBase : public Vol {
   //----------------------------------------------------------------------------
   /** \return SD card error code. */
   uint8_t sdErrorCode() {
-  //-------------- Added For MSC ------------------------------------------------
+
+//-------------- Added For MSC ------------------------------------------------
+  /** \return USB drive error code. */
 #if HAS_USB_MSC_CLASS
     if (m_USBmscDrive) {
       return m_USBmscDrive->errorCode();
     }
     return SD_CARD_ERROR_INVALID_CARD_CONFIG; //TODO: change this!
 #endif  // HAS_USB_MSC_CLASS
-  //----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
+
     if (m_card) {
       return m_card->errorCode();
     }
@@ -339,11 +347,17 @@ class SdBase : public Vol {
    * \return true for success or false for failure.
    */
   bool volumeBegin() {
+
 //-------------- Added For MSC ------------------------------------------------
+  /** Initialize file system after call to cardBegin. (USB drive)
+   *
+   * \return true for success or false for failure.
+   */
 #ifdef HAS_USB_MSC_CLASS
 	 return Vol::begin(m_USBmscDrive);
 #endif // HAS_USB_MSC_CLASS
 //----------------------------------------------------------------------------
+
      return Vol::begin(m_card);
   }
 #if ENABLE_ARDUINO_SERIAL
@@ -410,6 +424,7 @@ class SdBase : public Vol {
 //----------------------------------------------------------------------------
 
 };
+
 //------------------------------------------------------------------------------
 /**
  * \class SdFat32
@@ -428,10 +443,22 @@ class SdFat32 : public SdBase<FatVolume> {
     if (!cache) {
       return false;
     }
+
+//-------------- Added For MSC ------------------------------------------------
+  /** Format a USB drive FAT32/FAT16.
+   *
+   * \param[in] pr Optional Print information.
+   * \return true for success or false for failure.
+   */
+#ifdef HAS_USB_MSC_CLASS
+    return fmt.format(usbDrive(), cache, pr);
+#endif
+
     return fmt.format(card(), cache, pr);
   }
 };
 //------------------------------------------------------------------------------
+
 /**
  * \class SdExFat
  * \brief SD file system class for exFAT volumes.
@@ -449,10 +476,22 @@ class SdExFat : public SdBase<ExFatVolume> {
     if (!cache) {
       return false;
     }
+
+//-------------- Added For MSC ------------------------------------------------
+  /** Format a USB drive exFAT.
+   *
+   * \param[in] pr Optional Print information.
+   * \return true for success or false for failure.
+   */
+#ifdef HAS_USB_MSC_CLASS
+    return fmt.format(usbDrive(), cache, pr);
+#endif
+
     return fmt.format(card(), cache, pr);
   }
 };
 //------------------------------------------------------------------------------
+
 /**
  * \class SdFs
  * \brief SD file system class for FAT16, FAT32, and exFAT volumes.

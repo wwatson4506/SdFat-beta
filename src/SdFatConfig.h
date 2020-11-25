@@ -310,11 +310,13 @@ typedef uint8_t SdCsPin_t;
 #if defined(__IMXRT1062__)
 #define HAS_SDIO_CLASS 1
 #endif  // defined(__IMXRT1062__)
+
 //--------------- Added For MSC --------------------
 #if defined(__IMXRT1062__) || defined(__MK66FX1M0__)
 #define HAS_USB_MSC_CLASS 1
 #endif  // defined(__IMXRT1062__) || defined(__MK66FX1M0__
-///------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
 /**
  * Determine the default SPI configuration.
  */
