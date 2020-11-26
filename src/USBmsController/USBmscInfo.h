@@ -29,8 +29,13 @@
 #define USBmscInfo_h
 #include <stdint.h>
 #include "../common/SysCall.h"
+
+//---- Added For MSC --------------
+#ifdef HAS_USB_MSC_CLASS
 //#include "msc.h"
 #include "USBHost_t36.h"
+#endif  // HAS_USB_MSC_CLASS
+//---------------------------------
 
 // USB MSC errors TODO: Complete error code list!
 #define USB_MSC_ERROR_CODE_LIST\
@@ -46,9 +51,14 @@ void printUSBErrorSymbol(print_t* pr, uint8_t code);
 void printUSBErrorText(print_t* pr, uint8_t code);
 
 const uint8_t SD_CARD_TYPE_USB = 4;
-
 //-----------------------------------------------------------------------------
+
+//---- Added For MSC --------------
+#ifdef HAS_USB_MSC_CLASS
 inline uint32_t USBmscCapacity(msController *pDrv) {
 	return (pDrv->msDriveInfo.capacity.Blocks); 
 }
+#endif  // HAS_USB_MSC_CLASS
+//---------------------------------
+
 #endif  // USBmscInfo_h
