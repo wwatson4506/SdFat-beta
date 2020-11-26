@@ -29,7 +29,8 @@
 #define USBmscInfo_h
 #include <stdint.h>
 #include "../common/SysCall.h"
-#include "msc.h"
+//#include "msc.h"
+#include "USBHost.h"
 
 // USB MSC errors TODO: Complete error code list!
 #define USB_MSC_ERROR_CODE_LIST\
