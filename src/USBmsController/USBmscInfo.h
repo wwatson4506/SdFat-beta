@@ -30,7 +30,7 @@
 #include <stdint.h>
 #include "../common/SysCall.h"
 //#include "msc.h"
-#include "USBHost.h"
+#include "USBHost_t36.h"
 
 // USB MSC errors TODO: Complete error code list!
 #define USB_MSC_ERROR_CODE_LIST\
