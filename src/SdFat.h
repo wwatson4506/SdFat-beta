@@ -152,13 +152,14 @@ class SdBase : public Vol {
 
 //-------------- Added For MSC ------------------------------------------------
   /** \return Pointer to USB MSC object. */
+  #ifdef HAS_USB_MSC_CLASS
   mscDevice* usbDrive() {return m_USBmscDrive;}
   /** Initialize USB MSC drive.
    *
    * \param[in] Pointer to an instance of MSC.
    * \return true for success or false for failure.
    */
-#ifdef HAS_USB_MSC_CLASS
+
   bool cardBegin(msController *pDrive) {
     m_USBmscDrive = m_USBmscFactory.newMSCDevice(pDrive);
     return m_USBmscDrive && !m_USBmscDrive->errorCode();
