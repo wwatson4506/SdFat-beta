@@ -29,7 +29,8 @@
 
 #ifdef HAS_USB_MSC_CLASS
 #include "USBmscInterface.h"
-#include "msc.h"
+//#include "msc.h"
+#include "USBHost_t36.h"
 
 /**
  * \class USBMSCDevice
