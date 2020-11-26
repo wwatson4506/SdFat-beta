@@ -142,7 +142,6 @@ void loop() {
   cout << F("FreeStack: ") << FreeStack() << endl;
 #endif  // HAS_UNUSED_STACK
 
-Serial.printf("msDrive1 = %lu\n",msDrive1);
   if (!sd.begin(&msDrive1)) {
     sd.initErrorHalt(&Serial);
   }
