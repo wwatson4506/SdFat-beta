@@ -1,5 +1,14 @@
 ### Warning: This is an early beta version of SdFat Version 2.
 
+November 28, 2020
+Modified for use with MSC and a modified version of SD.
+Libraries needed are here:
+
+https://github.com/wwatson4506/USBHost_t36
+https://github.com/wwatson4506/SD
+
+These files need to be used with SdFat-inline version of SdFat.
+
 September 19, 2019 - added support for Teensy 4.0 SDIO.
 
 This library is in early development and features may change.
