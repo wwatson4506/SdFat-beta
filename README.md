@@ -1,6 +1,6 @@
 ### Warning: This is an early beta version of SdFat Version 2.
 
-November 28, 2020 Modified for use with MSC.
+November 28, 2020 Modified for use with USB mass storage drives.
 
 Libraries needed are here:
 
