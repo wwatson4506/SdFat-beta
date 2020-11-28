@@ -2,9 +2,11 @@
 
 November 28, 2020
 Modified for use with MSC and a modified version of SD.
+
 Libraries needed are here:
 
 https://github.com/wwatson4506/USBHost_t36
+
 https://github.com/wwatson4506/SD
 
 These files need to be used with SdFat-inline version of SdFat.
