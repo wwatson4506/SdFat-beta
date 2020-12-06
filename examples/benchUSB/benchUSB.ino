@@ -50,7 +50,7 @@ const uint8_t SD_CS_PIN = SDCARD_SS_PIN;
 #endif  // HAS_SDIO_CLASS
 
 // Set PRE_ALLOCATE true to pre-allocate file clusters.
-const bool PRE_ALLOCATE = true; // Not Sure it is working properly with MSC?
+const bool PRE_ALLOCATE = true; // Not sure it is working properly with MSC?
 
 // Set SKIP_FIRST_LATENCY true if the first read/write to the SD can
 // be avoid by writing a file header or reading the first record.
