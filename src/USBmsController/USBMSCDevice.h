@@ -29,7 +29,6 @@
 
 #ifdef HAS_USB_MSC_CLASS
 #include "USBmscInterface.h"
-//#include "msc.h"
 #include "USBHost_t36.h"
 
 /**
@@ -58,6 +57,16 @@ class USBMSCDevice : public USBmscInterface {
    * \return true if busy else false.
    */
   bool isBusy();
+  /** Check for busy with MSC read operation
+   *
+   * \return true if busy else false.
+   */
+  bool isBusyRead();
+  /** Check for busy with MSC read operation
+   *
+   * \return true if busy else false.
+   */
+  bool isBusyWrite();
   /**
    * Read a USB drive's information. This contains the drive's identification
    * information such as Manufacturer ID, Product name, Product serial
@@ -67,7 +76,6 @@ class USBMSCDevice : public USBmscInterface {
    *
    * \return true for success or false for failure.
    */
-
   bool readUSBDriveInfo(msDriveInfo_t * driveInfo);
   /** Return the card type: SD V1, SD V2 or SDHC
    * \return 0 - SD V1, 1 - SD V2, or 3 - SDHC.
@@ -111,6 +119,9 @@ class USBMSCDevice : public USBmscInterface {
    * \return true for success or false for failure.
    */
   bool writeSectors(uint32_t sector, const uint8_t* src, size_t ns);
+
+private:
+  msController *thisDrive;
 };
 #endif // HAS_USB_MSC_CLASS
 #endif  // USBmscDevice_h

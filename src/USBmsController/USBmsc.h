@@ -45,4 +45,4 @@ class USBmscFactory {
   USBMSCDevice m_USBmscDrv;
 };
 #endif  // HAS_USB_MSC_CLASS
-#endif  // SdCard_h
+#endif  // USBmsc_h
