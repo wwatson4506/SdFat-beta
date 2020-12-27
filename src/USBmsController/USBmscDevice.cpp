@@ -35,7 +35,7 @@ static bool m_initDone = false;
 static bool (*m_busyFcn)() = 0;
 static uint8_t m_errorCode = MS_NO_MEDIA_ERR;
 static uint32_t m_errorLine = 0;
-static msController *thisDrive = nullptr;
+//static msController *thisDrive = nullptr;
 static bool isBusyRead();
 static bool isBusyWrite();
 
@@ -75,11 +75,11 @@ static bool waitTimeout(bool (*fcn)()) {
   return false;  // Caller will set errorCode.
 }
 
-static bool isBusyRead() {
+bool USBMSCDevice::isBusyRead() {
 	return thisDrive->mscTransferComplete;
 }
 
-static bool isBusyWrite() {
+bool USBMSCDevice::isBusyWrite() {
 	return thisDrive->mscTransferComplete;
 }
 
@@ -134,11 +134,12 @@ bool USBMSCDevice::begin(msController *pDrive) {
 	m_errorCode = MS_CBW_PASS;
 	thisDrive = pDrive;
 	pDrive->mscInit(); // Do initial init of each instance of a MSC object.
-	if((m_errorCode = pDrive->checkConnectedInitialized())) // Check for Connected USB drive.
+	if((m_errorCode = pDrive->checkConnectedInitialized())) {// Check for Connected USB drive.
 		m_initDone = false;
-	else
+	} else {
 		m_initDone = true;
-	return m_errorCode;
+	}
+	return m_initDone;
 }
 
 //------------------------------------------------------------------------------
@@ -147,6 +148,10 @@ bool USBMSCDevice::readSector(uint32_t sector, uint8_t* dst) {
 }
 //------------------------------------------------------------------------------
 bool USBMSCDevice::readSectors(uint32_t sector, uint8_t* dst, size_t n) {
+	// Check if device is plugged in and initialized
+	if((m_errorCode = ((msController *)thisDrive)->checkConnectedInitialized()) != MS_CBW_PASS) {
+		return false;
+	}
 	m_errorCode = thisDrive->msReadBlocks(sector, n,
 	              (uint16_t)thisDrive->msDriveInfo.capacity.BlockSize, dst);
 	if(m_errorCode) {
@@ -160,6 +165,10 @@ bool USBMSCDevice::writeSector(uint32_t sector, const uint8_t* src) {
 }
 //------------------------------------------------------------------------------
 bool USBMSCDevice::writeSectors(uint32_t sector, const uint8_t* src, size_t n) {
+	// Check if device is plugged in and initialized
+	if((m_errorCode = ((msController *)thisDrive)->checkConnectedInitialized()) != MS_CBW_PASS) {
+		return false;
+	}
 	m_errorCode = thisDrive->msWriteBlocks(sector, n,
 	              (uint16_t)thisDrive->msDriveInfo.capacity.BlockSize, src);
 	if(m_errorCode) {
