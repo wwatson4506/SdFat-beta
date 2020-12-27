@@ -41,7 +41,11 @@ class USBmscInterface : public BlockDeviceInterface {
   virtual uint32_t errorData() const = 0;
   /** \return true if USB is busy. */
   virtual bool isBusy() = 0;
-  /** Read a MSC USB drive's info.
+  /** \return true if USB read is busy. */
+  virtual bool isBusyRead();
+  /** \return true if USB write is busy. */
+  virtual bool isBusyWrite();
+    /** Read a MSC USB drive's info.
    * \return true for success or false for failure.
    */
   virtual bool readUSBDriveInfo(msDriveInfo_t * driveInfo) = 0;
