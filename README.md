@@ -28,6 +28,7 @@ The four MSC library branches here:
 https://github.com/wwatson4506/MSC
 
 are not needed now with the modified version of USBHost_t36. "MasStorageDriver.cpp" and "msc.h" are now contained in my version of USBHost_t36. "MassStorageHost.cpp" and "MassStorage.h" are still available in the four different branches of the MSC library.
+
 September 19, 2019 - added support for Teensy 4.0 SDIO.
 
 This library is in early development and features may change.
