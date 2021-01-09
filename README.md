@@ -3,7 +3,19 @@
 November 28, 2020
 Modified for use with USB mass storage drives and a modified version of SD.
 
+Three libraries must be cloned and installed in the TD1.54B5 "arduino-1.8.13/hardware/teensy/avr/libraries' folder.
+
+You will need to backup these three libraries somewhere to revert back to if needed:
+
+1 - SdFat
+
+2 - SD
+
+3 - USBHost_t36
+
 Libraries needed are here:
+
+This library and:
 
 https://github.com/wwatson4506/USBHost_t36
 
@@ -11,6 +23,11 @@ https://github.com/wwatson4506/SD
 
 These files need to be used with SdFat-inline version of SdFat.
 
+The four MSC library branches here:
+
+https://github.com/wwatson4506/MSC
+
+are not needed now with the modified version of USBHost_t36. "MasStorageDriver.cpp" and "msc.h" are now contained in my version of USBHost_t36. "MassStorageHost.cpp" and "MassStorage.h" are still available in the four different branches of the MSC library.
 September 19, 2019 - added support for Teensy 4.0 SDIO.
 
 This library is in early development and features may change.
